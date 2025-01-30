@@ -1,0 +1,65 @@
+# Documentation: RetrievalQAWithSourcesChain
+
+## Introduction
+The **RetrievalQAWithSourcesChain** is a chain designed to **answer questions while providing source references**. It enhances retrieval-based QA systems by ensuring transparency and traceability of the generated answers.
+
+**Description:** *A chain used for question-answering that retrieves relevant documents and includes sources in the response.*
+
+## Properties
+
+### Required Parameters
+- **`combine_documents_chain`** (`BaseCombineDocumentsChain`):
+  - Description: The chain responsible for combining retrieved documents.
+  - Required: **Yes**
+- **`retriever`** (`BaseRetriever`):
+  - Description: The retriever used to fetch relevant documents.
+  - Required: **Yes**
+- **`llm`** (`BaseLanguageModel`):
+  - Description: The language model used to generate responses.
+  - Required: **Yes**
+- **`chain_type`** (`String`):
+  - Description: The retrieval chain type that determines how documents are processed.
+  - Required: **Yes**
+  - Options:
+    - `stuff`
+    - `map_reduce`
+    - `map_rerank`
+    - `refine`
+
+### Optional Parameters
+- **`memory`** (`BaseMemory`):
+  - Description: Stores context for tracking interactions and previous queries.
+  - Required: **No**
+- **`return_source_documents`** (`Boolean`):
+  - Description: Determines if the retrieved source documents should be returned along with the response.
+  - Required: **No**
+  - Default: `true`
+
+### Additional Information
+- **Base Classes:**
+  - `BaseQAWithSourcesChain`
+  - `Chain`
+- **Display Name:** `RetrievalQAWithSourcesChain`
+- **Documentation:** No external documentation available.
+- **Custom Fields:**
+  - `combine_documents_chain`: Default is `None`
+  - `retriever`: Default is `None`
+  - `llm`: Default is `None`
+  - `chain_type`: Default is `None`
+  - `memory`: Default is `None`
+  - `return_source_documents`: Default is `true`
+- **Output Types:**
+  - `BaseQAWithSourcesChain`
+- **Beta Status:** `true`
+
+## Implementation
+The **RetrievalQAWithSourcesChain** retrieves relevant documents based on a query, processes them using a language model, and returns an answer along with the source references.
+
+### Example Workflow:
+1. The **retriever** fetches relevant documents.
+2. The **combine_documents_chain** merges and processes these documents.
+3. The **llm** generates an answer based on the extracted information.
+4. If **return_source_documents** is enabled, the retrieved documents are included in the response.
+
+## Conclusion
+The **RetrievalQAWithSourcesChain** is a valuable tool for applications requiring **question-answering with source attribution**. It enhances credibility by providing references alongside generated responses, ensuring transparency in AI-driven interactions.
