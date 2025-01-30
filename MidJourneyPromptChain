@@ -1,0 +1,43 @@
+# Documentation: MidJourneyPromptChain
+
+## Introduction
+The **MidJourneyPromptChain** is a chain designed to **generate prompts for MidJourney**. It facilitates structured prompt creation, enhancing interactions with AI-driven image generation models.
+
+**Description:** *A chain used to generate new MidJourney prompts.*
+
+## Properties
+
+### Required Parameters
+- **`llm`** (`BaseLanguageModel`):
+  - Description: The language model used to generate MidJourney prompts.
+  - Required: **Yes**
+
+### Optional Parameters
+- **`memory`** (`BaseChatMemory`):
+  - Description: Stores chat history to enhance contextual understanding when generating prompts.
+  - Required: **No**
+
+### Additional Information
+- **Base Classes:**
+  - `LLMChain`
+  - `BaseCustomChain`
+  - `Chain`
+  - `ConversationChain`
+  - `MidJourneyPromptChain`
+- **Display Name:** `MidJourneyPromptChain`
+- **Documentation:** No external documentation available.
+- **Custom Fields:** None
+- **Output Types:** None defined
+- **Beta Status:** `false`
+
+## Implementation
+The **MidJourneyPromptChain** assists in generating well-structured prompts based on user input. It enables enhanced creativity by utilizing LLMs to refine prompt structures.
+
+### Example Workflow:
+1. The **llm** processes user input and generates a creative prompt.
+2. If **memory** is enabled, it ensures contextual consistency in prompt generation.
+3. The structured MidJourney prompt is returned for use in image generation.
+
+## Conclusion
+The **MidJourneyPromptChain** is an essential tool for artists and AI-driven content creators looking to **generate high-quality prompts** for MidJourney and similar platforms. By leveraging LLMs, it enhances creativity and ensures better outputs for image generation.
+
