@@ -1,0 +1,92 @@
+# Documentation: ConversationalRetrievalChain
+
+## Introduction
+
+The **ConversationalRetrievalChain** is a chain designed for **context-aware document retrieval** within a dialogue. It enables seamless question reformulation and retrieval of relevant documents, improving the accuracy of responses from an LLM.
+
+**Description:** *Convenience method to load a chain from an LLM and retriever.*
+
+## Properties
+
+### Required Parameters
+
+- `` (`BaseLanguageModel`):
+  - Description: The language model used for question processing.
+  - Required: **Yes**
+- `` (`BaseChatMemory`):
+  - Description: Stores chat history for maintaining conversation context.
+  - Required: **Yes**
+- `` (`BaseRetriever`):
+  - Description: The retriever used for document search.
+  - Required: **Yes**
+- `` (`String`):
+  - Description: The type of retrieval chain used.
+  - Required: **Yes**
+  - Default: `"stuff"`
+  - Options:
+    - `stuff`
+    - `map_reduce`
+    - `map_rerank`
+    - `refine`
+
+### Optional Parameters
+
+- `` (`Callbacks`):
+  - Description: Allows processing step callbacks.
+  - Required: **No**
+- `` (`BaseLanguageModel`):
+  - Description: LLM used to rephrase questions.
+  - Required: **No**
+- `` (`BasePromptTemplate`):
+  - Description: Template for question rephrasing.
+  - Required: **No**
+  - Default template:
+    ```
+    Given the following conversation and a follow-up question, rephrase the follow-up question to be a standalone question in its original language.
+
+    Chat History:
+    {chat_history}
+    Follow-Up Input: {question}
+    Standalone question:
+    ```
+- `` (`dict`):
+  - Description: Additional parameters for document combination.
+  - Required: **No**
+- `` (`bool`):
+  - Description: Determines if source documents should be returned.
+  - Required: **No**
+  - Default: `true`
+- `` (`bool`):
+  - Description: Enables detailed logging.
+  - Required: **No**
+  - Default: `false`
+
+### Additional Information
+
+- **Base Classes:**
+  - `BaseConversationalRetrievalChain`
+  - `ConversationalRetrievalChain`
+  - `Chain`
+  - `Callable`
+- **Display Name:** `ConversationalRetrievalChain`
+- **Documentation:** [LangChain Documentation](https://python.langchain.com/docs/modules/chains/popular/chat_vector_db)
+- **Custom Fields:** None
+- **Output Types:** None defined
+- **Beta Status:** `false`
+
+## Usage
+
+The **ConversationalRetrievalChain** is designed for **retrieving relevant documents** based on conversational context. It enhances information retrieval by refining user queries before retrieving documents.
+
+### Example Workflow:
+
+1. The **memory** stores the conversation history.
+2. The **condense\_question\_llm** reformulates follow-up questions.
+3. The **retriever** fetches relevant documents.
+4. The chain processes the retrieved information using the chosen `chain_type`.
+5. The final response is generated, optionally including **source documents**.
+
+## Conclusion
+
+The **ConversationalRetrievalChain** is a robust retrieval system designed for conversational AI. By leveraging LLMs for query rephrasing and advanced retrievers for document search, it significantly enhances response accuracy in dialogue-based applications.
+
