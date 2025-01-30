@@ -1,0 +1,65 @@
+# Documentation: RetrievalQA
+
+## Introduction
+The **RetrievalQA** is a chain designed to **answer queries based on external data sources**. It utilizes a retriever to fetch relevant documents and processes them using an LLM to generate accurate responses.
+
+**Description:** *A chain used to answer questions by retrieving relevant documents and processing them with an LLM.*
+
+## Properties
+
+### Required Parameters
+- **`combine_documents_chain`** (`BaseCombineDocumentsChain`):
+  - Description: The chain responsible for combining retrieved documents.
+  - Required: **Yes**
+- **`retriever`** (`BaseRetriever`):
+  - Description: The retriever used to fetch relevant documents.
+  - Required: **Yes**
+- **`input_key`** (`String`):
+  - Description: The name of the input variable representing the query.
+  - Required: **Yes**
+  - Default: `"query"`
+- **`output_key`** (`String`):
+  - Description: The name of the output variable that stores the generated response.
+  - Required: **Yes**
+  - Default: `"result"`
+
+### Optional Parameters
+- **`memory`** (`BaseMemory`):
+  - Description: Stores context for tracking interactions and previous queries.
+  - Required: **No**
+- **`return_source_documents`** (`Boolean`):
+  - Description: Determines if the retrieved source documents should be returned along with the response.
+  - Required: **No**
+  - Default: `true`
+
+### Additional Information
+- **Base Classes:**
+  - `BaseRetrievalQA`
+  - `Chain`
+  - `Callable`
+- **Display Name:** `RetrievalQA`
+- **Documentation:** No external documentation available.
+- **Custom Fields:**
+  - `combine_documents_chain`: Default is `None`
+  - `retriever`: Default is `None`
+  - `memory`: Default is `None`
+  - `input_key`: Default is `"query"`
+  - `output_key`: Default is `"result"`
+  - `return_source_documents`: Default is `true`
+- **Output Types:**
+  - `BaseRetrievalQA`
+  - `Callable`
+- **Beta Status:** `true`
+
+## Implementation
+The **RetrievalQA** chain retrieves documents based on a given query and processes them using a language model to generate meaningful answers.
+
+### Example Workflow:
+1. The **retriever** fetches relevant documents.
+2. The **combine_documents_chain** merges and processes these documents.
+3. The **llm** generates an answer based on the extracted information.
+4. If **return_source_documents** is enabled, the original retrieved documents are returned along with the answer.
+
+## Conclusion
+The **RetrievalQA** is a powerful tool for applications requiring **information retrieval and question-answering capabilities**. It ensures accurate responses by leveraging external data sources while providing flexibility in handling query processing and document retrieval.
+
