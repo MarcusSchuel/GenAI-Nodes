@@ -1,0 +1,61 @@
+# Documentation: LLMMathChain
+
+## Introduction
+The **LLMMathChain** is a chain designed to **perform mathematical computations** using an LLM. It enables processing of mathematical expressions and computations while integrating the reasoning capabilities of a language model.
+
+**Description:** *A chain that interprets a prompt and executes Python code to perform mathematical operations.*
+
+## Properties
+
+### Required Parameters
+- **`llm`** (`BaseLanguageModel`):
+  - Description: The language model used for interpreting and solving mathematical expressions.
+  - Required: **Yes**
+- **`llm_chain`** (`LLMChain`):
+  - Description: The underlying chain responsible for processing mathematical queries.
+  - Required: **Yes**
+- **`input_key`** (`String`):
+  - Description: The name of the input variable representing the mathematical expression.
+  - Required: **Yes**
+  - Default: `"question"`
+- **`output_key`** (`String`):
+  - Description: The name of the output variable that stores the computed result.
+  - Required: **Yes**
+  - Default: `"answer"`
+
+### Optional Parameters
+- **`memory`** (`BaseMemory`):
+  - Description: Stores context to track previous calculations and interactions.
+  - Required: **No**
+
+### Additional Information
+- **Base Classes:**
+  - `LLMMathChain`
+  - `Chain`
+  - `Callable`
+- **Display Name:** `LLMMathChain`
+- **Documentation:** [LLMMathChain Documentation](https://python.langchain.com/docs/modules/chains/additional/llm_math)
+- **Custom Fields:**
+  - `llm`: Default is `None`
+  - `llm_chain`: Default is `None`
+  - `input_key`: Default is `"question"`
+  - `output_key`: Default is `"answer"`
+  - `memory`: Default is `None`
+- **Output Types:**
+  - `LLMMathChain`
+  - `Chain`
+  - `Callable`
+- **Beta Status:** `true`
+
+## Implementation
+The **LLMMathChain** facilitates **interpreting** mathematical queries, **executing Python-based calculations**, and **returning computed results**. It enables LLMs to extend their reasoning capabilities by interacting with Python’s computation engine.
+
+### Example Workflow:
+1. The **input_key** receives a mathematical query.
+2. The **llm_chain** processes the query and converts it into a structured mathematical request.
+3. Python executes the computation and returns the numerical result.
+4. The computed answer is stored in **output_key** and returned.
+
+## Conclusion
+The **LLMMathChain** enhances LLM-driven applications by integrating mathematical reasoning and execution capabilities. It is an essential tool for applications requiring **automated problem-solving, numerical reasoning, and computational assistance**.
+
