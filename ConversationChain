@@ -1,0 +1,45 @@
+# Documentation: ConversationChain
+
+## Introduction
+The **ConversationChain** is a chain designed for **context-aware conversation handling**. It enables seamless interactions with an LLM while maintaining conversation memory for continuity.
+
+**Description:** *Chain to have a conversation and load context from memory.*
+
+## Properties
+
+### Required Parameters
+- **`llm`** (`BaseLanguageModel`):
+  - Description: The language model used for processing conversation inputs.
+  - Required: **Yes**
+
+### Optional Parameters
+- **`memory`** (`BaseMemory`):
+  - Description: Stores conversation history to provide context for responses.
+  - Required: **No**
+  - Default: If no memory is provided, `ConversationBufferMemory` is used.
+
+### Additional Information
+- **Base Classes:**
+  - `Chain`
+  - `Callable`
+- **Display Name:** `ConversationChain`
+- **Documentation:** No external documentation available.
+- **Custom Fields:**
+  - `llm`: Default is `None`
+  - `memory`: Default is `None`
+- **Output Types:**
+  - `Chain`
+  - `Callable`
+- **Beta Status:** `true`
+
+## Implementation
+The **ConversationChain** allows for dynamic conversation handling by storing context and providing responses based on past interactions.
+
+### Example Usage:
+1. The **llm** processes user input.
+2. The **memory** (if provided) ensures context retention.
+3. The conversation flows naturally with previous interactions taken into account.
+
+## Conclusion
+The **ConversationChain** is essential for building conversational agents that require contextual awareness. It enables smooth interactions with LLMs while supporting memory integration for enhanced dialogue continuity.
+
