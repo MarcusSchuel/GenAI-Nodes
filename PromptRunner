@@ -1,0 +1,47 @@
+# Documentation: PromptRunner
+
+## Introduction
+The **PromptRunner** is a chain designed to **execute prompts in a defined environment**. It allows users to input structured prompts, process them using an LLM, and return the generated response.
+
+**Description:** *A chain used to execute structured prompts with an LLM in a customizable environment.*
+
+## Properties
+
+### Required Parameters
+- **`llm`** (`BaseLLM`):
+  - Description: The language model used for processing the prompts.
+  - Required: **Yes**
+- **`prompt`** (`PromptTemplate`):
+  - Description: The template used to structure input prompts.
+  - Required: **Yes**
+- **`inputs`** (`Dictionary`):
+  - Description: Dictionary of input variables required for the prompt execution.
+  - Required: **Yes**
+- **`code`** (`Python-Code`):
+  - Description: The implementation of the `PromptRunner` logic.
+  - Required: **Yes**
+
+### Additional Information
+- **Base Classes:**
+  - `Document`
+- **Display Name:** `PromptRunner`
+- **Documentation:** No external documentation available.
+- **Custom Fields:**
+  - `llm`: Default is `None`
+  - `prompt`: Default is `None`
+  - `inputs`: Default is `{}`
+- **Output Types:**
+  - `Document`
+- **Beta Status:** `true`
+
+## Implementation
+The **PromptRunner** executes structured prompts in a predefined environment, ensuring that all required variables are correctly formatted before passing them to an LLM.
+
+### Example Workflow:
+1. The **prompt** is filled with values from **inputs**.
+2. The **llm** processes the structured prompt.
+3. The **code** executes the logic defined in the `PromptRunner`.
+4. The final response is returned as a `Document` object.
+
+## Conclusion
+The **PromptRunner** is a versatile tool for executing structured prompts in applications that require **customizable, dynamic interactions with LLMs**. It ensures that all necessary variables are provided and formatted correctly before execution.
