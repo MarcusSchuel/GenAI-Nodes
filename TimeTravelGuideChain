@@ -1,0 +1,44 @@
+# Documentation: TimeTravelGuideChain
+
+## Introduction
+The **TimeTravelGuideChain** is a chain designed to **simulate guided conversations about historical events**. It allows users to interact with an LLM to explore different historical periods as if they were traveling through time.
+
+**Description:** *A chain that provides conversational simulations of historical events and time periods.*
+
+## Properties
+
+### Required Parameters
+- **`llm`** (`BaseLanguageModel`):
+  - Description: The language model used to generate historically accurate responses.
+  - Required: **Yes**
+
+### Optional Parameters
+- **`memory`** (`BaseChatMemory`):
+  - Description: Stores conversation history to provide continuity in the time-travel simulation.
+  - Required: **No**
+
+### Additional Information
+- **Base Classes:**
+  - `LLMChain`
+  - `BaseCustomChain`
+  - `TimeTravelGuideChain`
+  - `Chain`
+  - `ConversationChain`
+- **Display Name:** `TimeTravelGuideChain`
+- **Documentation:** No external documentation available.
+- **Custom Fields:** None
+- **Output Types:** None defined
+- **Beta Status:** `false`
+
+## Implementation
+The **TimeTravelGuideChain** allows users to engage in AI-generated conversations as if they were experiencing historical events firsthand. It provides context-aware responses based on different time periods.
+
+### Example Workflow:
+1. The user specifies a historical period or event.
+2. The **llm** generates responses based on the requested time frame.
+3. If **memory** is enabled, it ensures the conversation maintains continuity.
+4. The conversation flows naturally, allowing users to explore different aspects of history dynamically.
+
+## Conclusion
+The **TimeTravelGuideChain** is an innovative tool for **historical education, storytelling, and immersive simulations**. It enhances learning experiences by allowing users to interact with AI-driven historical personas and events while maintaining conversational continuity.
+
