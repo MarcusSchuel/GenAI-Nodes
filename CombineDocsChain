@@ -1,0 +1,48 @@
+# Documentation: CombineDocsChain
+
+## Introduction
+The **CombineDocsChain** is a chain for combining documents used in **question-answering processes**. It allows various methods of document processing to generate the best possible answers from an LLM (Language Model).
+
+**Description:** *Load question answering chain.*
+
+## Properties
+
+### Required Parameters
+- **`llm`** (`BaseLanguageModel`):
+  - Description: The language model used for document processing.
+  - Required: **Yes**
+- **`chain_type`** (`String`):
+  - Description: The type of document combination applied.
+  - Required: **Yes**
+  - Default: `"stuff"`
+  - Options:
+    - `stuff`
+    - `map_reduce`
+    - `map_rerank`
+    - `refine`
+- **`_type`** (`String`):
+  - Description: Internal identifier for the chain.
+  - Required: **Yes**
+  - Default value: `"load_qa_chain"`
+
+### Additional Information
+- **Base Classes:**
+  - `BaseCombineDocumentsChain`
+  - `Callable`
+- **Display Name:** `CombineDocsChain`
+- **Documentation:** No external documentation available.
+- **Custom Fields:** None
+- **Output Types:** None defined
+- **Beta Status:** `false`
+
+## Usage
+The **CombineDocsChain** is primarily used to merge documents for **question-answering systems** and pass them in a unified format to an LLM. Depending on the `chain_type`, the combination can be done in different ways:
+
+1. **Stuff**: All documents are merged into a single string.
+2. **Map Reduce**: Each document is processed separately, and the results are aggregated.
+3. **Map Rerank**: Answers from each document are ranked to select the best one.
+4. **Refine**: The answer is iteratively refined by considering each document sequentially.
+
+## Conclusion
+The **CombineDocsChain** is a powerful method for document processing in question-answering models. It allows flexible document combination and supports various strategies to optimize answer quality.
+
