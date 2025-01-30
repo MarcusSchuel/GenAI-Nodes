@@ -1,0 +1,54 @@
+# Documentation: SQLDatabaseChain
+
+## Introduction
+The **SQLDatabaseChain** is a chain designed to **interact with SQL databases** using an LLM. It enables users to generate and execute SQL queries dynamically, retrieving structured data based on natural language inputs.
+
+**Description:** *A chain that allows querying SQL databases using a language model.*
+
+## Properties
+
+### Required Parameters
+- **`db`** (`SQLDatabase`):
+  - Description: The SQL database to be queried.
+  - Required: **Yes**
+- **`llm`** (`BaseLanguageModel`):
+  - Description: The language model used to interpret and generate SQL queries.
+  - Required: **Yes**
+- **`prompt`** (`BasePromptTemplate`):
+  - Description: The template for structuring SQL query prompts.
+  - Required: **Yes**
+
+### Optional Parameters
+- **`code`** (`Python-Code`):
+  - Description: The implementation of the SQLDatabaseChain logic.
+  - Required: **No**
+
+### Additional Information
+- **Base Classes:**
+  - `Chain`
+  - `Callable`
+  - `SQLDatabaseChain`
+- **Display Name:** `SQLDatabaseChain`
+- **Documentation:** No external documentation available.
+- **Custom Fields:**
+  - `db`: Default is `None`
+  - `llm`: Default is `None`
+  - `prompt`: Default is `None`
+- **Output Types:**
+  - `Chain`
+  - `Callable`
+  - `SQLDatabaseChain`
+- **Beta Status:** `true`
+
+## Implementation
+The **SQLDatabaseChain** enables structured querying of databases by translating natural language inputs into executable SQL queries. It allows users to retrieve and manipulate data without needing SQL expertise.
+
+### Example Workflow:
+1. The **prompt** structures the natural language input into a query format.
+2. The **llm** processes the structured query and generates an SQL command.
+3. The **db** executes the generated SQL query.
+4. The retrieved data is returned as the final output.
+
+## Conclusion
+The **SQLDatabaseChain** is a powerful tool for applications requiring **dynamic and intelligent interactions with SQL databases**. It simplifies database querying by allowing users to generate SQL queries using natural language, enhancing accessibility and efficiency.
+
