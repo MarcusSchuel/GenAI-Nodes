@@ -1,0 +1,50 @@
+# Documentation: LLMChain
+
+## Introduction
+The **LLMChain** is a chain designed to **process prompts and generate responses** using an LLM. It provides structured interactions with language models while maintaining memory and customizable prompt templates.
+
+**Description:** *A chain used to run queries against LLMs with customizable prompt structures.*
+
+## Properties
+
+### Required Parameters
+- **`llm`** (`BaseLanguageModel`):
+  - Description: The language model used for processing prompts.
+  - Required: **Yes**
+- **`prompt`** (`BasePromptTemplate`):
+  - Description: The template used to structure input prompts.
+  - Required: **Yes**
+
+### Optional Parameters
+- **`memory`** (`BaseMemory`):
+  - Description: Stores conversation history to provide context for responses.
+  - Required: **No**
+
+### Additional Information
+- **Base Classes:**
+  - `Chain`
+  - `Callable`
+  - `LLMChain`
+- **Display Name:** `LLMChain`
+- **Documentation:** No external documentation available.
+- **Custom Fields:**
+  - `prompt`: Default is `None`
+  - `llm`: Default is `None`
+  - `memory`: Default is `None`
+- **Output Types:**
+  - `Chain`
+  - `Callable`
+  - `LLMChain`
+- **Beta Status:** `true`
+
+## Implementation
+The **LLMChain** enables structured querying of language models, ensuring that prompts are formatted correctly and responses are contextually relevant.
+
+### Example Workflow:
+1. The **prompt** is structured using the provided template.
+2. The **llm** processes the formatted query.
+3. If **memory** is provided, it ensures context retention across interactions.
+4. The final response is generated based on the input query and stored memory.
+
+## Conclusion
+The **LLMChain** is a foundational component for applications requiring **structured and customizable LLM interactions**. It provides flexible prompt processing while enabling context-aware responses through memory integration.
