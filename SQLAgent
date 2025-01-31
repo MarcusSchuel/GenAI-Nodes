@@ -1,0 +1,82 @@
+# Documentation: SQLAgent
+
+## Introduction
+The **SQLAgent** is a specialized agent designed to interact with SQL databases using a **Language Model (LLM)**. It enables natural language queries and structured data retrieval from relational databases.
+
+**Description:** *Construct an SQL agent from an LLM and tools.*
+
+## Properties
+
+### Required Parameters
+- **`llm`** (`BaseLanguageModel`):
+  - Description: The language model used for processing SQL queries.
+  - Required: **Yes**
+
+- **`database_uri`** (`str`):
+  - Description: The connection URI of the SQL database.
+  - Required: **Yes**
+
+- **`verbose`** (`bool`):
+  - Description: Enables detailed logging for debugging.
+  - Required: **No**
+  - Default: `False`
+
+- **`code`** (`code`):
+  - Description: The Python implementation defining the agent’s behavior.
+  - Required: **Yes**
+  - Default: Predefined class structure.
+
+### Additional Information
+- **Base Classes:**
+  - `AgentExecutor`
+  - `Chain`
+  - `Callable`
+- **Display Name:** `SQLAgent`
+- **Documentation:** *Not available*
+- **Custom Fields:** `llm`, `database_uri`, `verbose`
+- **Output Types:** `AgentExecutor`, `Callable`
+- **Beta Status:** `true`
+
+## Usage
+The **SQLAgent** is implemented as a Python class that initializes an agent for processing SQL queries using an LLM:
+
+```python
+from langflow import CustomComponent
+from typing import Union, Callable
+from langchain.agents import AgentExecutor
+from langflow.field_typing import BaseLanguageModel
+from langchain_community.agent_toolkits.sql.base import create_sql_agent
+from langchain.sql_database import SQLDatabase
+from langchain_community.agent_toolkits import SQLDatabaseToolkit
+
+class SQLAgentComponent(CustomComponent):
+    display_name = "SQLAgent"
+    description = "Construct an SQL agent from an LLM and tools."
+
+    def build_config(self):
+        return {
+            "llm": {"display_name": "LLM"},
+            "database_uri": {"display_name": "Database URI"},
+            "verbose": {"display_name": "Verbose", "value": False, "advanced": True},
+        }
+
+    def build(
+        self,
+        llm: BaseLanguageModel,
+        database_uri: str,
+        verbose: bool = False,
+    ) -> Union[AgentExecutor, Callable]:
+        db = SQLDatabase.from_uri(database_uri)
+        toolkit = SQLDatabaseToolkit(db=db, llm=llm)
+        return create_sql_agent(llm=llm, toolkit=toolkit)
+```
+
+### Steps to Use:
+1. Provide an **LLM model** for processing SQL queries.
+2. Specify the **database URI** to connect to an SQL database.
+3. Optionally, enable **verbose logging** for debugging.
+4. Deploy the agent to **process natural language SQL queries**.
+
+## Conclusion
+The **SQLAgent** provides a structured way to interact with **SQL databases** using an **LLM**. It allows **natural language querying, analysis, and retrieval** of structured data, making it a powerful tool for **data-driven applications**.
+
