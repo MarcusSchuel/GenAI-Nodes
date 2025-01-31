@@ -1,0 +1,108 @@
+# Documentation: LLMGuard Wrapper
+
+## Introduction
+The **LLMGuard Wrapper** is a component designed to enhance **security and validation** for LLM applications. It acts as a middleware between an LLM and user interactions, enforcing input/output scanning rules to detect and mitigate potential risks.
+
+**Description:** *Implementation of LLM Guard Wrapper Component*
+
+## Properties
+
+### Required Parameters
+- **`llm`** (`BaseLanguageModel`):
+  - Description: The primary language model used for processing.
+  - Required: **Yes**
+
+- **`input_scanners`** (`Data` list):
+  - Description: A set of input scanners used for filtering and validating prompts.
+  - Required: **No**
+  - Default: `None`
+
+- **`output_scanners`** (`Data` list):
+  - Description: A set of output scanners used for filtering and validating LLM-generated responses.
+  - Required: **No**
+  - Default: `None`
+
+- **`raise_error`** (`bool`):
+  - Description: Determines if an error should be raised when a prompt is invalid.
+  - Required: **No**
+  - Default: `True`
+
+- **`code`** (`code`):
+  - Description: The Python implementation defining the wrapper’s behavior.
+  - Required: **Yes**
+  - Default: Predefined class structure.
+
+### Additional Information
+- **Base Classes:**
+  - `BaseLanguageModel`
+- **Display Name:** `LLMGuard Wrapper`
+- **Documentation:** *Not available*
+- **Custom Fields:** `llm`, `input_scanners`, `output_scanners`, `raise_error`
+- **Output Types:** `BaseLanguageModel`
+- **Beta Status:** `true`
+
+## Usage
+The **LLMGuard Wrapper** is implemented as a Python class that integrates input and output scanners while wrapping around a language model:
+
+```python
+from langflow import CustomComponent
+from typing import Any, Dict, List, Optional
+from langchain.llms.base import LLM
+from langchain.schema.messages import BaseMessage
+
+from langflow.field_typing import Data, BaseLanguageModel, TemplateField
+
+from loguru import logger
+import llm_guard  # type: ignore
+
+class LLMGuardWrapper(CustomComponent):
+    display_name: str = "LLMGuardWrapper"
+    description: str = "Implementation of LLM Guard Wrapper Component"
+    vault = llm_guard.vault.Vault()
+
+    class LLMGuardModel(LLM):
+        base_llm: BaseLanguageModel
+        input_scanners: List[Any] = []
+        output_scanners: List[Any] = []
+        raise_error: bool = True
+
+        def _call(self, prompt: str, **kwargs: Any) -> str:
+            """Validates input and output using scanners before and after calling the LLM."""
+            sanitized_prompt = prompt
+            for scanner in self.input_scanners:
+                sanitized_prompt, is_valid, risk_score = scanner.scan(sanitized_prompt)
+                if not is_valid and self.raise_error:
+                    raise ValueError(f"Prompt rejected by {type(scanner).__name__} with risk score {risk_score}")
+
+            llm_response = self.base_llm.predict(sanitized_prompt)
+            sanitized_output = llm_response
+
+            for scanner in self.output_scanners:
+                sanitized_output, is_valid, risk_score = scanner.scan(prompt, sanitized_output)
+                if not is_valid and self.raise_error:
+                    raise ValueError(f"Output rejected by {type(scanner).__name__} with risk score {risk_score}")
+
+            return sanitized_output
+
+        @property
+        def _llm_type(self) -> str:
+            return "llm_guard"
+
+    def build(self, llm: BaseLanguageModel, input_scanners: Optional[List[Data]] = None, output_scanners: Optional[List[Data]] = None, raise_error: Optional[bool] = True) -> BaseLanguageModel:
+        return self.LLMGuardModel(
+            base_llm=llm,
+            input_scanners=input_scanners or [],
+            output_scanners=output_scanners or [],
+            raise_error=raise_error
+        )
+```
+
+### Steps to Use:
+1. Define the **LLM** model to wrap.
+2. Select **input and output scanners** to apply validation.
+3. Set `raise_error` to determine whether invalid responses should trigger an error.
+4. Pass user input through the wrapper for validation before processing with the LLM.
+
+## Conclusion
+The **LLMGuard Wrapper** provides a **comprehensive safety layer** for LLM applications, enabling strict validation of user inputs and AI-generated outputs. It enhances **compliance**, **security**, and **trustworthiness** of language models.
+
