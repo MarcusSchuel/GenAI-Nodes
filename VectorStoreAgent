@@ -1,0 +1,69 @@
+# Documentation: VectorStoreAgent
+
+## Introduction
+The **VectorStoreAgent** is an intelligent agent designed to interact with **vector databases** using a **Language Model (LLM)**. It enables efficient **semantic search, retrieval, and querying** of stored vectors.
+
+**Description:** *Construct an agent from a Vector Store.*
+
+## Properties
+
+### Required Parameters
+- **`llm`** (`BaseLanguageModel`):
+  - Description: The language model used for querying the vector store.
+  - Required: **Yes**
+
+- **`vector_store_toolkit`** (`VectorStoreToolkit`):
+  - Description: Toolkit providing vector store access and operations.
+  - Required: **Yes**
+
+- **`code`** (`code`):
+  - Description: The Python implementation defining the agent’s behavior.
+  - Required: **Yes**
+  - Default: Predefined class structure.
+
+### Additional Information
+- **Base Classes:**
+  - `AgentExecutor`
+  - `Chain`
+  - `Callable`
+- **Display Name:** `VectorStoreAgent`
+- **Documentation:** *Not available*
+- **Custom Fields:** `llm`, `vector_store_toolkit`
+- **Output Types:** `AgentExecutor`, `Callable`
+- **Beta Status:** `true`
+
+## Usage
+The **VectorStoreAgent** is implemented as a Python class that initializes an agent for working with vector-based search and retrieval:
+
+```python
+from langflow import CustomComponent
+from langchain.agents import AgentExecutor, create_vectorstore_agent
+from langchain.agents.agent_toolkits.vectorstore.toolkit import VectorStoreToolkit
+from typing import Union, Callable
+from langflow.field_typing import BaseLanguageModel
+
+class VectorStoreAgentComponent(CustomComponent):
+    display_name = "VectorStoreAgent"
+    description = "Construct an agent from a Vector Store."
+
+    def build_config(self):
+        return {
+            "llm": {"display_name": "LLM"},
+            "vector_store_toolkit": {"display_name": "Vector Store Info"},
+        }
+
+    def build(
+        self,
+        llm: BaseLanguageModel,
+        vector_store_toolkit: VectorStoreToolkit,
+    ) -> Union[AgentExecutor, Callable]:
+        return create_vectorstore_agent(llm=llm, toolkit=vector_store_toolkit)
+```
+
+### Steps to Use:
+1. Provide an **LLM model** for processing queries.
+2. Connect the agent to a **vector store toolkit**.
+3. Deploy the agent to enable **semantic search, retrieval, and analysis**.
+
+## Conclusion
+The **VectorStoreAgent** is an advanced tool that enables **efficient querying and retrieval** from **vector databases**. It enhances **semantic search capabilities**, making it a valuable component for **AI-driven knowledge management**.
