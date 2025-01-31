@@ -1,0 +1,64 @@
+# Documentation: VectorStoreRouterAgent
+
+## Introduction
+The **VectorStoreRouterAgent** is a specialized agent designed to **route queries** across multiple vector stores using a **Language Model (LLM)**. It allows intelligent **query distribution and retrieval** across diverse vector databases.
+
+**Description:** *Construct an agent from a Vector Store Router.*
+
+## Properties
+
+### Required Parameters
+- **`llm`** (`BaseLanguageModel`):
+  - Description: The language model used for querying vector stores.
+  - Required: **Yes**
+
+- **`vectorstoreroutertoolkit`** (`VectorStoreRouterToolkit`):
+  - Description: Toolkit providing access and routing logic for multiple vector stores.
+  - Required: **Yes**
+
+- **`code`** (`code`):
+  - Description: The Python implementation defining the agent’s behavior.
+  - Required: **Yes**
+  - Default: Predefined class structure.
+
+### Additional Information
+- **Base Classes:**
+  - `Callable`
+- **Display Name:** `VectorStoreRouterAgent`
+- **Documentation:** *Not available*
+- **Custom Fields:** `llm`, `vectorstoreroutertoolkit`
+- **Output Types:** `Callable`
+- **Beta Status:** `true`
+
+## Usage
+The **VectorStoreRouterAgent** is implemented as a Python class that initializes an agent for routing queries across multiple vector stores:
+
+```python
+from langflow import CustomComponent
+from langchain_core.language_models.base import BaseLanguageModel
+from langchain.agents.agent_toolkits.vectorstore.toolkit import VectorStoreRouterToolkit
+from langchain.agents import create_vectorstore_router_agent
+from typing import Callable
+
+class VectorStoreRouterAgentComponent(CustomComponent):
+    display_name = "VectorStoreRouterAgent"
+    description = "Construct an agent from a Vector Store Router."
+
+    def build_config(self):
+        return {
+            "llm": {"display_name": "LLM"},
+            "vectorstoreroutertoolkit": {"display_name": "Vector Store Router Toolkit"},
+        }
+
+    def build(self, llm: BaseLanguageModel, vectorstoreroutertoolkit: VectorStoreRouterToolkit) -> Callable:
+        return create_vectorstore_router_agent(llm=llm, toolkit=vectorstoreroutertoolkit)
+```
+
+### Steps to Use:
+1. Provide an **LLM model** for processing queries.
+2. Connect the agent to a **vector store router toolkit**.
+3. Deploy the agent to enable **intelligent routing, query distribution, and retrieval** across multiple vector stores.
+
+## Conclusion
+The **VectorStoreRouterAgent** enhances **multi-vector search capabilities** by enabling **automated query distribution and routing**. It is a valuable tool for **knowledge management, recommendation systems, and large-scale semantic search applications**.
+
