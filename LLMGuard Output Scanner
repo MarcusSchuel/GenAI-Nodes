@@ -1,0 +1,112 @@
+# Documentation: LLMGuard Output Scanner
+
+## Introduction
+The **LLMGuard Output Scanner** is a component designed for **output validation and security** in LLM applications. It ensures that generated responses comply with predefined rules, mitigating risks such as bias, misinformation, and security threats.
+
+**Description:** *LLMGuard Output Scanner Component*
+
+## Properties
+
+### Required Parameters
+- **`name`** (`str`):
+  - Description: The name of the scanner to apply.
+  - Required: **No**
+  - Options:
+    - `BanCode`
+    - `BanCompetitors`
+    - `BanSubstrings`
+    - `BanTopics`
+    - `Bias`
+    - `Code`
+    - `Deanonymize`
+    - `FactualConsistency`
+    - `Gibberish`
+    - `JSON`
+    - `Language`
+    - `LanguageSame`
+    - `MaliciousURLs`
+    - `NoRefusal`
+    - `ReadingTime`
+    - `Regex`
+    - `Relevance`
+    - `Sensitive`
+    - `Sentiment`
+    - `Toxicity`
+    - `URLReachability`
+
+- **`config`** (`dict`):
+  - Description: Configuration details for the selected scanner.
+  - Required: **No**
+  - Default: `{}`
+
+- **`raise_error`** (`bool`):
+  - Description: Determines if an error should be raised if scanning fails.
+  - Required: **No**
+  - Default: `True`
+
+- **`code`** (`code`):
+  - Description: The Python implementation defining the scanner’s behavior.
+  - Required: **Yes**
+  - Default: Predefined class structure.
+
+### Additional Information
+- **Base Classes:**
+  - `Data`
+- **Display Name:** `LLMGuard Output Scanner`
+- **Documentation:** *Not available*
+- **Custom Fields:** `name`, `config`, `raise_error`
+- **Output Types:** `Data`
+- **Beta Status:** `true`
+
+## Usage
+The **LLMGuard Output Scanner** is implemented as a Python class, defining its configuration and execution logic:
+
+```python
+from langflow import CustomComponent
+from typing import Optional, Dict
+from langflow.field_typing import TemplateField, Data
+
+import llm_guard  # type: ignore
+
+class LLMGuardOutputScanner(CustomComponent):
+    display_name = "LLMGuard Output Scanner"
+    description = "LLMGuard Output Scanner Component"
+
+    def build_config(self) -> Dict:
+        return {
+            "name": TemplateField(
+                display_name="Scanner Name",
+                info="The name of the scanner.",
+                options=list(map(lambda x: x.__name__, llm_guard.output_scanners.base.Scanner.__subclasses__())),
+            ),
+            "config": TemplateField(
+                display_name="Configuration",
+                info="Scanner config.",
+                type="NestedDict",
+            ),
+            "raise_error": TemplateField(
+                display_name="Raise Error",
+                info="Whether to raise an error if this scanner fails",
+                value=True,
+            ),
+            "code": TemplateField(advanced=True),
+        }
+
+    def build(
+        self,
+        name: str,
+        config: Optional[dict] = None,
+        raise_error: Optional[bool] = True,
+    ) -> Data:
+        return {"name": name, "config": config or {}, "raise_error": raise_error}  # type: ignore
+```
+
+### Steps to Use:
+1. Select a scanner type from the available options.
+2. Define the necessary configuration parameters.
+3. Set `raise_error` to `True` or `False` based on your needs.
+4. Process the output using the scanner.
+
+## Conclusion
+The **LLMGuard Output Scanner** provides a robust mechanism to ensure the quality, accuracy, and security of LLM-generated responses. By leveraging multiple validation strategies, it helps mitigate risks associated with AI-generated text.
+
