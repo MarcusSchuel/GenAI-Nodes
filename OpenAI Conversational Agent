@@ -1,0 +1,179 @@
+# Documentation: OpenAI Conversational Agent
+
+## Introduction
+The **OpenAI Conversational Agent** is a powerful AI assistant that leverages OpenAI's **function calling API**. It integrates with various tools and memory systems to provide **dynamic, interactive, and context-aware conversations**.
+
+**Description:** *Conversational Agent that can use OpenAI's function calling API.*
+
+## Properties
+
+### Required Parameters
+- **`model_name`** (`str`):
+  - Description: The OpenAI model to use.
+  - Required: **Yes**
+  - Default: `"gpt-4-turbo-preview"`
+  - Options:
+    - `gpt-4-turbo-preview`
+    - `gpt-4-0125-preview`
+    - `gpt-4-1106-preview`
+    - `gpt-4-vision-preview`
+    - `gpt-3.5-turbo-0125`
+    - `gpt-3.5-turbo-1106`
+
+- **`openai_api_key`** (`str`):
+  - Description: The API key for OpenAI authentication.
+  - Required: **Yes**
+
+- **`tools`** (`Tool` list):
+  - Description: A list of tools the agent can use for enhanced functionality.
+  - Required: **Yes**
+
+- **`max_token_limit`** (`int`):
+  - Description: Maximum number of tokens allowed in memory.
+  - Required: **Yes**
+  - Default: `2000`
+
+- **`temperature`** (`float`):
+  - Description: Controls response randomness (higher = more creative).
+  - Required: **Yes**
+  - Default: `0.2`
+  - Range: `0` to `2` (step `0.1`)
+
+### Optional Parameters
+- **`openai_api_base`** (`str`):
+  - Description: Custom base URL for OpenAI API requests.
+  - Required: **No**
+
+- **`memory`** (`BaseMemory`):
+  - Description: Memory module for conversational context.
+  - Required: **No**
+
+- **`system_message`** (`SystemMessagePromptTemplate`):
+  - Description: Custom system message to guide the AI's behavior.
+  - Required: **No**
+
+- **`code`** (`code`):
+  - Description: The Python implementation defining the agent’s behavior.
+  - Required: **Yes**
+  - Default: Predefined class structure.
+
+### Additional Information
+- **Base Classes:**
+  - `AgentExecutor`
+  - `Chain`
+- **Display Name:** `OpenAI Conversational Agent`
+- **Documentation:** *Not available*
+- **Custom Fields:** `model_name`, `openai_api_key`, `tools`, `openai_api_base`, `memory`, `system_message`, `max_token_limit`, `temperature`
+- **Output Types:** `AgentExecutor`
+- **Beta Status:** `true`
+
+## Usage
+The **OpenAI Conversational Agent** is implemented as a Python class that initializes a conversational AI with OpenAI's function-calling capabilities:
+
+```python
+from typing import List, Optional
+from langchain.agents.agent import AgentExecutor
+from langchain.agents.agent_toolkits.conversational_retrieval.openai_functions import _get_default_system_message
+from langchain.agents.openai_functions_agent.base import OpenAIFunctionsAgent
+from langchain.memory.token_buffer import ConversationTokenBufferMemory
+from langchain.prompts import SystemMessagePromptTemplate
+from langchain.prompts.chat import MessagesPlaceholder
+from langchain.schema.memory import BaseMemory
+from langchain.tools import Tool
+from langchain_community.chat_models.openai import ChatOpenAI
+from langflow import CustomComponent
+from langflow.field_typing.range_spec import RangeSpec
+
+class ConversationalAgent(CustomComponent):
+    display_name: str = "OpenAI Conversational Agent"
+    description: str = "Conversational Agent that can use OpenAI's function calling API"
+
+    def build_config(self):
+        openai_function_models = [
+            "gpt-4-turbo-preview",
+            "gpt-4-0125-preview",
+            "gpt-4-1106-preview",
+            "gpt-4-vision-preview",
+            "gpt-3.5-turbo-0125",
+            "gpt-3.5-turbo-1106",
+        ]
+        return {
+            "tools": {"display_name": "Tools"},
+            "memory": {"display_name": "Memory"},
+            "system_message": {"display_name": "System Message"},
+            "max_token_limit": {"display_name": "Max Token Limit"},
+            "model_name": {
+                "display_name": "Model Name",
+                "options": openai_function_models,
+                "value": openai_function_models[0],
+            },
+            "temperature": {
+                "display_name": "Temperature",
+                "value": 0.2,
+                "range_spec": RangeSpec(min=0, max=2, step=0.1),
+            },
+        }
+
+    def build(
+        self,
+        model_name: str,
+        openai_api_key: str,
+        tools: List[Tool],
+        openai_api_base: Optional[str] = None,
+        memory: Optional[BaseMemory] = None,
+        system_message: Optional[SystemMessagePromptTemplate] = None,
+        max_token_limit: int = 2000,
+        temperature: float = 0.9,
+    ) -> AgentExecutor:
+        llm = ChatOpenAI(
+            model=model_name,
+            api_key=openai_api_key,
+            base_url=openai_api_base,
+            max_tokens=max_token_limit,
+            temperature=temperature,
+        )
+        if not memory:
+            memory_key = "chat_history"
+            memory = ConversationTokenBufferMemory(
+                memory_key=memory_key,
+                return_messages=True,
+                output_key="output",
+                llm=llm,
+                max_token_limit=max_token_limit,
+            )
+        else:
+            memory_key = memory.memory_key
+
+        _system_message = system_message or _get_default_system_message()
+        prompt = OpenAIFunctionsAgent.create_prompt(
+            system_message=_system_message,
+            extra_prompt_messages=[MessagesPlaceholder(variable_name=memory_key)],
+        )
+        agent = OpenAIFunctionsAgent(
+            llm=llm,
+            tools=tools,
+            prompt=prompt,
+        )
+        return AgentExecutor(
+            agent=agent,
+            tools=tools,
+            memory=memory,
+            verbose=True,
+            return_intermediate_steps=True,
+            handle_parsing_errors=True,
+        )
+```
+
+### Steps to Use:
+1. Choose an **OpenAI model** from the available options.
+2. Provide an **API key** to authenticate.
+3. Define a set of **tools** to enhance functionality.
+4. Optionally, configure:
+   - **Memory** for conversation history.
+   - **System messages** for guiding the assistant.
+   - **Token limits** to control response length.
+   - **Temperature** for tuning response randomness.
+5. Deploy the **OpenAI Conversational Agent** for interactive AI-driven conversations.
+
+## Conclusion
+The **OpenAI Conversational Agent** is a **powerful tool** for building AI-driven conversational applications. By leveraging **OpenAI’s function-calling API**, it provides **flexible, structured, and intelligent responses**, making it ideal for **chatbots, virtual assistants, and automated support systems**.
