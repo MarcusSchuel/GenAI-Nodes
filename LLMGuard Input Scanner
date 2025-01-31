@@ -1,0 +1,105 @@
+# Documentation: LLMGuard Input Scanner
+
+## Introduction
+The **LLMGuard Input Scanner** is a component designed for **input validation and security** in LLM applications. It allows enterprises to apply predefined scanning techniques to user inputs, preventing unwanted content and ensuring compliance.
+
+**Description:** *LLMGuard Input Scanner Component*
+
+## Properties
+
+### Required Parameters
+- **`name`** (`str`):
+  - Description: The name of the scanner to apply.
+  - Required: **No**
+  - Options:
+    - `Anonymize`
+    - `BanCode`
+    - `BanCompetitors`
+    - `BanSubstrings`
+    - `BanTopics`
+    - `Code`
+    - `Gibberish`
+    - `InvisibleText`
+    - `Language`
+    - `PromptInjection`
+    - `Regex`
+    - `Secrets`
+    - `Sentiment`
+    - `TokenLimit`
+    - `Toxicity`
+
+- **`config`** (`dict`):
+  - Description: Configuration details for the selected scanner.
+  - Required: **No**
+  - Default: `{}`
+
+- **`raise_error`** (`bool`):
+  - Description: Determines if an error should be raised if scanning fails.
+  - Required: **No**
+  - Default: `True`
+
+- **`code`** (`code`):
+  - Description: The Python implementation defining the scanner’s behavior.
+  - Required: **Yes**
+  - Default: Predefined class structure.
+
+### Additional Information
+- **Base Classes:**
+  - `Data`
+- **Display Name:** `LLMGuard Input Scanner`
+- **Documentation:** *Not available*
+- **Custom Fields:** `name`, `config`, `raise_error`
+- **Output Types:** `Data`
+- **Beta Status:** `true`
+
+## Usage
+The **LLMGuard Input Scanner** is implemented as a Python class, defining its configuration and execution logic:
+
+```python
+from langflow import CustomComponent
+from typing import Optional, Dict
+from langflow.field_typing import TemplateField, Data
+
+import llm_guard  # type: ignore
+
+class LLMGuardInputScanner(CustomComponent):
+    display_name = "LLMGuard Input Scanner"
+    description = "LLMGuard Input Scanner Component"
+
+    def build_config(self) -> Dict:
+        return {
+            "name": TemplateField(
+                display_name="Scanner name",
+                info="The name of the scanner.",
+                options=list(map(lambda x: x.__name__, llm_guard.input_scanners.base.Scanner.__subclasses__())),
+            ),
+            "config": TemplateField(
+                display_name="Configuration",
+                info="Scanner config.",
+                type="NestedDict",
+            ),
+            "raise_error": TemplateField(
+                display_name="Raise Error",
+                info="Whether to raise an error if this scanner fails",
+                value=True,
+            ),
+            "code": TemplateField(advanced=True),
+        }
+
+    def build(
+        self,
+        name: str,
+        config: Optional[dict] = None,
+        raise_error: Optional[bool] = True,
+    ) -> Data:
+        return {"name": name, "config": config or {}, "raise_error": raise_error}  # type: ignore
+```
+
+### Steps to Use:
+1. Select a scanner type from the available options.
+2. Define the necessary configuration parameters.
+3. Set `raise_error` to `True` or `False` based on your needs.
+4. Process the input using the scanner.
+
+## Conclusion
+The **LLMGuard Input Scanner** enhances security and compliance in LLM applications by offering a flexible, configurable scanning mechanism. With multiple prebuilt scanners, it provides **robust input validation** and protection against various threats.
