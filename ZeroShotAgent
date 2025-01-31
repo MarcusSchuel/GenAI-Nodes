@@ -1,0 +1,98 @@
+# Documentation: ZeroShotAgent
+
+## Introduction
+The **ZeroShotAgent** is an AI agent designed to **answer queries** using a **Language Model (LLM)** and a set of predefined **tools**. It follows a **zero-shot reasoning approach**, meaning it determines the best tool or action to take without prior training on specific task examples.
+
+**Description:** *Construct an agent from an LLM and tools.*
+
+## Properties
+
+### Required Parameters
+- **`llm`** (`BaseLanguageModel`):
+  - Description: The language model used for processing queries.
+  - Required: **Yes**
+
+- **`tools`** (`BaseTool` list):
+  - Description: A list of tools the agent can use.
+  - Required: **Yes**
+
+### Optional Parameters
+- **`callback_manager`** (`BaseCallbackManager`):
+  - Description: A callback manager to handle agent events.
+  - Required: **No**
+  
+- **`output_parser`** (`AgentOutputParser`):
+  - Description: Parses the agent's output into a structured response.
+  - Required: **No**
+
+- **`format_instructions`** (`str`):
+  - Description: Instructions for formatting the agent’s responses.
+  - Required: **No**
+  - Default:
+    ```
+    Use the following format:
+    
+    Question: the input question you must answer
+    Thought: you should always think about what to do
+    Action: the action to take, should be one of [{tool_names}]
+    Action Input: the input to the action
+    Observation: the result of the action
+    ... (this Thought/Action/Action Input/Observation can repeat N times)
+    Thought: I now know the final answer
+    Final Answer: the final answer to the original input question
+    ```
+
+- **`input_variables`** (`str` list):
+  - Description: List of input variables for dynamic agent behavior.
+  - Required: **No**
+
+- **`prefix`** (`str`):
+  - Description: Introduction message before tool selection.
+  - Required: **No**
+  - Default:
+    ```
+    Answer the following questions as best you can. You have access to the following tools:
+    ```
+
+- **`suffix`** (`str`):
+  - Description: Instruction message before user input processing.
+  - Required: **No**
+  - Default:
+    ```
+    Begin!
+
+    Question: {input}
+    Thought:{agent_scratchpad}
+    ```
+
+### Additional Information
+- **Base Classes:**
+  - `BaseSingleActionAgent`
+  - `ZeroShotAgent`
+  - `Agent`
+  - `Callable`
+- **Display Name:** `ZeroShotAgent`
+- **Documentation:** [Langchain Custom MRKL Agent](https://python.langchain.com/docs/modules/agents/how_to/custom_mrkl_agent)
+- **Custom Fields:** None
+- **Output Types:** None
+- **Beta Status:** `false`
+
+## Usage
+The **ZeroShotAgent** follows a **step-by-step reasoning process** to answer queries effectively:
+
+1. **Receives a question** from the user.
+2. **Thinks** about what action to take.
+3. **Selects a tool** from the available options.
+4. **Provides input to the tool** and observes the result.
+5. **Repeats the process** if necessary until a final answer is formed.
+6. **Outputs the final answer**.
+
+### Example Use Case:
+- The agent receives the question:  
+  _"What is the weather like in Berlin?"_
+- It decides to use the **weather API tool**.
+- It sends a request and retrieves **real-time weather data**.
+- It **formats the response** and provides the final answer.
+
+## Conclusion
+The **ZeroShotAgent** is a flexible and powerful agent that can dynamically **select tools, reason through actions, and generate structured responses**. It is useful for **question-answering, task automation, and AI-driven decision-making**.
