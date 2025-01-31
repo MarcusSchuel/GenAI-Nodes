@@ -1,0 +1,67 @@
+# Documentation: JsonAgent
+
+## Introduction
+The **JsonAgent** is a specialized agent that enables structured interaction with **JSON data** using a **Language Model (LLM)**. It integrates a JSON toolkit for **parsing, querying, and analyzing** JSON data.
+
+**Description:** *Construct a JSON agent from an LLM and tools.*
+
+## Properties
+
+### Required Parameters
+- **`llm`** (`BaseLanguageModel`):
+  - Description: The language model used for processing JSON data.
+  - Required: **Yes**
+
+- **`toolkit`** (`JsonToolkit`):
+  - Description: The toolkit used for JSON manipulation.
+  - Required: **Yes**
+
+- **`code`** (`code`):
+  - Description: The Python implementation defining the agent’s behavior.
+  - Required: **Yes**
+  - Default: Predefined class structure.
+
+### Additional Information
+- **Base Classes:**
+  - `AgentExecutor`
+  - `Chain`
+- **Display Name:** `JsonAgent`
+- **Documentation:** *Not available*
+- **Custom Fields:** `llm`, `toolkit`
+- **Output Types:** `AgentExecutor`
+- **Beta Status:** `true`
+
+## Usage
+The **JsonAgent** is implemented as a Python class that initializes an agent for processing JSON files:
+
+```python
+from langflow import CustomComponent
+from langchain.agents import AgentExecutor, create_json_agent
+from langflow.field_typing import BaseLanguageModel
+from langchain_community.agent_toolkits.json.toolkit import JsonToolkit
+
+class JsonAgentComponent(CustomComponent):
+    display_name = "JsonAgent"
+    description = "Construct a JSON agent from an LLM and tools."
+
+    def build_config(self):
+        return {
+            "llm": {"display_name": "LLM"},
+            "toolkit": {"display_name": "Toolkit"},
+        }
+
+    def build(
+        self,
+        llm: BaseLanguageModel,
+        toolkit: JsonToolkit,
+    ) -> AgentExecutor:
+        return create_json_agent(llm=llm, toolkit=toolkit)
+```
+
+### Steps to Use:
+1. Provide an **LLM model** for processing JSON data.
+2. Specify the **toolkit** to use for JSON operations.
+3. Run the agent to **query, analyze, and manipulate JSON structures**.
+
+## Conclusion
+The **JsonAgent** is a powerful tool for working with structured data formats like JSON. It enables **natural language-based queries** and **automated JSON parsing**, making it an essential component for **data-driven applications**.
