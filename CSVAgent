@@ -1,0 +1,70 @@
+# Documentation: CSVAgent
+
+## Introduction
+The **CSVAgent** is a specialized agent designed to process **CSV files** using a language model. It enables structured interaction with CSV data by leveraging an **LLM** for analysis and querying.
+
+**Description:** *Construct a CSV agent from a CSV and tools.*
+
+## Properties
+
+### Required Parameters
+- **`llm`** (`BaseLanguageModel`):
+  - Description: The language model used for CSV analysis.
+  - Required: **Yes**
+
+- **`path`** (`file`):
+  - Description: The file path of the CSV to be processed.
+  - Required: **Yes**
+  - Accepted Formats: `.csv`
+
+- **`code`** (`code`):
+  - Description: The Python implementation defining the agent’s behavior.
+  - Required: **Yes**
+  - Default: Predefined class structure.
+
+### Additional Information
+- **Base Classes:**
+  - `AgentExecutor`
+  - `Chain`
+- **Display Name:** `CSVAgent`
+- **Documentation:** [Langchain CSV Toolkit](https://python.langchain.com/docs/modules/agents/toolkits/csv)
+- **Custom Fields:** `llm`, `path`
+- **Output Types:** `AgentExecutor`
+- **Beta Status:** `true`
+
+## Usage
+The **CSVAgent** is implemented as a Python class that initializes an agent for CSV file processing:
+
+```python
+from langflow import CustomComponent
+from langflow.field_typing import BaseLanguageModel, AgentExecutor
+from langchain_experimental.agents.agent_toolkits.csv.base import create_csv_agent
+
+class CSVAgentComponent(CustomComponent):
+    display_name = "CSVAgent"
+    description = "Construct a CSV agent from a CSV and tools."
+    documentation = "https://python.langchain.com/docs/modules/agents/toolkits/csv"
+
+    def build_config(self):
+        return {
+            "llm": {"display_name": "LLM", "type": BaseLanguageModel},
+            "path": {"display_name": "Path", "field_type": "file", "suffixes": [".csv"], "file_types": [".csv"]},
+        }
+
+    def build(
+        self,
+        llm: BaseLanguageModel,
+        path: str,
+    ) -> AgentExecutor:
+        # Instantiate and return the CSV agent class with the provided LLM and path
+        return create_csv_agent(llm=llm, path=path)
+```
+
+### Steps to Use:
+1. Provide an **LLM model** for processing.
+2. Specify the **path to a CSV file**.
+3. Run the agent to analyze, query, and extract insights from the CSV.
+
+## Conclusion
+The **CSVAgent** offers a structured way to process **CSV files** with the power of an **LLM**. It enables **querying, analysis, and transformation** of CSV data, making it a useful tool for data-driven applications.
+
