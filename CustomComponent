@@ -1,0 +1,52 @@
+Documentation: CustomComponent
+
+## Introduction
+The **CustomComponent** is a customizable component designed for **data processing** within the Langflow framework. It enables users to process input data efficiently while maintaining flexibility in configuration.
+
+**Description:** *Conversational Cartography Unlocked.*
+
+## Properties
+
+### Required Parameters
+- **`param`** (`Data`):
+  - Description: The input data to be processed by the component.
+  - Required: **Yes**
+
+- **`code`** (`code`):
+  - Description: The Python implementation defining the component’s behavior.
+  - Required: **Yes**
+  - Default: Predefined class structure.
+  
+### Additional Information
+- **Base Classes:**
+  - `Data`
+- **Display Name:** `CustomComponent`
+- **Documentation:** [Langflow Custom Component Docs](http://docs.langflow.org/components/custom)
+- **Custom Fields:** `param`
+- **Output Types:** `Data`
+- **Beta Status:** `true`
+
+## Usage
+The **CustomComponent** is structured using a Python class that inherits from `CustomComponent`. It provides a method to process data as follows:
+
+```python
+from langflow import CustomComponent
+from langflow.field_typing import Data
+
+class Component(CustomComponent):
+    documentation: str = "http://docs.langflow.org/components/custom"
+
+    def build_config(self):
+        return {"param": {"display_name": "Parameter"}}
+
+    def build(self, param: Data) -> Data:
+        return param
+```
+
+### Steps to Use:
+1. Define your `param` input.
+2. Implement custom logic within the `build` method.
+3. Process and return the output data.
+
+## Conclusion
+The **CustomComponent** provides a structured way to integrate custom processing logic into Langflow. It is designed for **flexibility** and **ease of use**, supporting various data types and configurations.
