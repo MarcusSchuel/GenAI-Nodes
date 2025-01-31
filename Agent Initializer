@@ -1,0 +1,129 @@
+# Documentation: Agent Initializer
+
+## Introduction
+The **Agent Initializer** is a component designed to **initialize and configure Langchain agents** for use in various AI applications. It provides flexibility in defining agents, tools, memory, and execution parameters to create intelligent conversational systems.
+
+**Description:** *Initialize a Langchain Agent.*
+
+## Properties
+
+### Required Parameters
+- **`llm`** (`BaseLanguageModel`):
+  - Description: The language model used by the agent.
+  - Required: **Yes**
+
+- **`tools`** (`Tool` list):
+  - Description: A list of tools the agent can use.
+  - Required: **Yes**
+
+- **`agent`** (`str`):
+  - Description: The type of agent to initialize.
+  - Required: **Yes**
+  - Default: `"zero-shot-react-description"`
+  - Options:
+    - `zero-shot-react-description`
+    - `react-docstore`
+    - `self-ask-with-search`
+    - `conversational-react-description`
+    - `chat-zero-shot-react-description`
+    - `chat-conversational-react-description`
+    - `structured-chat-zero-shot-react-description`
+    - `openai-functions`
+    - `openai-multi-functions`
+    - `JsonAgent`
+    - `CSVAgent`
+    - `VectorStoreAgent`
+    - `VectorStoreRouterAgent`
+    - `SQLAgent`
+
+- **`max_iterations`** (`int`):
+  - Description: Maximum number of iterations for the agent’s decision-making process.
+  - Required: **Yes**
+  - Default: `10`
+
+- **`memory`** (`BaseChatMemory`):
+  - Description: Memory module for conversational context retention.
+  - Required: **No**
+  - Default: `None`
+
+- **`code`** (`code`):
+  - Description: The Python implementation defining the agent’s behavior.
+  - Required: **Yes**
+  - Default: Predefined class structure.
+
+### Additional Information
+- **Base Classes:**
+  - `AgentExecutor`
+  - `Chain`
+  - `Callable`
+- **Display Name:** `Agent Initializer`
+- **Documentation:** [Langchain Agent Docs](https://python.langchain.com/docs/modules/agents/agent_types/)
+- **Custom Fields:** `agent`, `llm`, `tools`, `max_iterations`, `memory`
+- **Output Types:** `AgentExecutor`, `Callable`
+- **Beta Status:** `true`
+
+## Usage
+The **Agent Initializer** is implemented as a Python class that defines and initializes Langchain agents:
+
+```python
+from typing import Callable, List, Optional, Union
+from langchain.agents import AgentExecutor, AgentType, initialize_agent, types
+from langflow import CustomComponent
+from langflow.field_typing import BaseChatMemory, BaseLanguageModel, Tool
+
+class AgentInitializerComponent(CustomComponent):
+    display_name: str = "Agent Initializer"
+    description: str = "Initialize a Langchain Agent."
+    documentation: str = "https://python.langchain.com/docs/modules/agents/agent_types/"
+
+    def build_config(self):
+        agents = list(types.AGENT_TO_CLASS.keys())
+        return {
+            "agent": {"options": agents, "value": agents[0], "display_name": "Agent Type"},
+            "max_iterations": {"display_name": "Max Iterations", "value": 10},
+            "memory": {"display_name": "Memory"},
+            "tools": {"display_name": "Tools"},
+            "llm": {"display_name": "Language Model"},
+            "code": {"advanced": True},
+        }
+
+    def build(
+        self,
+        agent: str,
+        llm: BaseLanguageModel,
+        tools: List[Tool],
+        max_iterations: int,
+        memory: Optional[BaseChatMemory] = None,
+    ) -> Union[AgentExecutor, Callable]:
+        agent = AgentType(agent)
+        if memory:
+            return initialize_agent(
+                tools=tools,
+                llm=llm,
+                agent=agent,
+                memory=memory,
+                return_intermediate_steps=True,
+                handle_parsing_errors=True,
+                max_iterations=max_iterations,
+            )
+        return initialize_agent(
+            tools=tools,
+            llm=llm,
+            agent=agent,
+            return_intermediate_steps=True,
+            handle_parsing_errors=True,
+            max_iterations=max_iterations,
+        )
+```
+
+### Steps to Use:
+1. Select an **agent type** from the available options.
+2. Define an **LLM model** for the agent.
+3. Specify **tools** the agent can use.
+4. Optionally, include **memory** for conversation context.
+5. Set the **max_iterations** limit.
+6. Initialize the agent using `AgentInitializerComponent`.
+
+## Conclusion
+The **Agent Initializer** provides a streamlined way to configure and deploy Langchain agents with different capabilities. It supports **various agent types, tools, and memory configurations**, making it a **versatile** solution for AI-driven workflows.
+
